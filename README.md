@@ -17,15 +17,15 @@
    New file `src/lib/hooks.tsx`, and add code
 
    ```tsx
-   import { useEffect } from "react";
-   import { useLocation } from "react-router-dom";
+   import { useEffect } from 'react'
+   import { useLocation } from 'react-router-dom'
 
-   import "preline/preline";
-   import { type IStaticMethods } from "preline/preline";
+   import 'preline/preline'
+   import { type IStaticMethods } from 'preline/preline'
 
    declare global {
      interface Window {
-       HSStaticMethods: IStaticMethods;
+       HSStaticMethods: IStaticMethods
      }
    }
 
@@ -34,11 +34,11 @@
     * Docs: https://preline.co/docs/frameworks-react.html
     */
    export function usePrelineEffect() {
-     const location = useLocation();
+     const location = useLocation()
 
      useEffect(() => {
-       window.HSStaticMethods.autoInit();
-     }, [location.pathname]);
+       window.HSStaticMethods.autoInit()
+     }, [location.pathname])
    }
    ```
 
@@ -48,12 +48,14 @@
    1. New File `src/lib/utils.ts`, and add code
 
       ```ts
-      import { clsx, type ClassValue } from "clsx";
-      import { twMerge } from "tailwind-merge";
+      import { clsx, type ClassValue } from 'clsx'
+      import { twMerge } from 'tailwind-merge'
 
       export function cn(...inputs: ClassValue[]) {
-        return twMerge(clsx(inputs));
+        return twMerge(clsx(inputs))
       }
       ```
 
+1. [Add alias `@`](https://ui.shadcn.com/docs/installation/vite)
+1. [Install prettier](https://prettier.io/docs/en/install)
 </details>
