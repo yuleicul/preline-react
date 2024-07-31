@@ -86,6 +86,7 @@ export function useValidityEffect({
       (state) => event.currentTarget.validity[state],
     )!
     if (validationMessage?.[validityState]) {
+      // TODO: display default validityState message if `validationMessage` is not provided
       setErrorMessage(validationMessage[validityState]!)
     } else if (validityState === 'valueMissing') {
       setErrorMessage('This field is required.')

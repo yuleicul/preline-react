@@ -1,7 +1,6 @@
 import {
   forwardRef,
-  useImperativeHandle,
-  useRef,
+  useId,
   type ForwardedRef,
   type InputHTMLAttributes,
 } from 'react'
@@ -10,90 +9,50 @@ import {
   type ValidationMessage,
 } from '@/components/lib/hooks'
 import { cn } from '@/components/lib/utils'
+import { Label } from './label'
 
-type FormInputProps<TName> = {
+type Props = {
   label?: string
   validationMessage?: ValidationMessage
   inputClassName?: string
   loading?: boolean
-  name?: TName
 }
 
-export type InputImperativeHandle = {
-  validate: () => void
-  setErrorMessage: (message: string) => void
-  setCustomValidity: (error: string) => void
-}
-
-const InnerInput = <TName extends string = string>(
+export const Input = forwardRef(function Input(
   {
-    // Component props
     label,
     className,
     validationMessage,
     inputClassName,
     loading,
+    ...htmlInputProps
+  }: InputHTMLAttributes<HTMLInputElement> & Props,
+  ref: ForwardedRef<HTMLInputElement>,
+) {
+  const randomId = useId()
+  const id = htmlInputProps.id || randomId
 
-    // HTMLInputElement props
-    name,
-    id,
-    required,
-    onInvalid,
-    onBlur,
-    ...otherInputProps
-  }: InputHTMLAttributes<HTMLInputElement> & FormInputProps<TName>,
-  ref: ForwardedRef<InputImperativeHandle>,
-) => {
-  const {
-    ErrorMessage,
-    errorMessage,
-    setErrorMessage,
-    handleBlur,
-    handleInvalid,
-  } = useValidityEffect({
-    name,
-    dep: { required, pattern: otherInputProps.pattern },
-    validationMessage,
-    onBlur,
-    onInvalid,
-  })
-
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      validate: () => {
-        // NOTE: `checkValidity()` will trigger `oninvalid` if it returns `false`
-        const isValid = inputRef.current?.checkValidity()
-        if (isValid) {
-          setErrorMessage('')
-        }
+  const { ErrorMessage, errorMessage, handleBlur, handleInvalid } =
+    useValidityEffect({
+      name: htmlInputProps.name,
+      dep: {
+        required: htmlInputProps.required,
+        pattern: htmlInputProps.pattern,
       },
-      setErrorMessage: (message: string) => {
-        setErrorMessage(message)
-      },
-      setCustomValidity: (message: string) => {
-        inputRef.current?.setCustomValidity(message)
-      },
-    }),
-    [setErrorMessage],
-  )
+      validationMessage,
+      onBlur: htmlInputProps.onBlur,
+      onInvalid: htmlInputProps.onInvalid,
+    })
 
   return (
     <div className={cn(className)}>
-      {label && (
-        <label htmlFor={id} className="block text-sm font-semibold mb-2.5">
-          {label}
-          {required && <span className="text-teal-600">*</span>}
-        </label>
-      )}
+      {label && <Label htmlFor={id}> {label}</Label>}
 
       <div className="flex items-center relative">
         <input
-          {...otherInputProps}
-          ref={inputRef}
           id={id}
+          ref={ref}
+          {...htmlInputProps}
           className={cn(
             'py-3.5 px-4 block w-full rounded-lg text-[15px] shadow-sm',
             errorMessage
@@ -104,8 +63,6 @@ const InnerInput = <TName extends string = string>(
           )}
           onInvalid={handleInvalid}
           onBlur={handleBlur}
-          required={required}
-          name={name}
         />
 
         {loading && (
@@ -120,9 +77,4 @@ const InnerInput = <TName extends string = string>(
       <ErrorMessage />
     </div>
   )
-}
-
-export const Input = forwardRef(InnerInput) as <TName extends string = string>(
-  props: InputHTMLAttributes<HTMLInputElement> &
-    FormInputProps<TName> & { ref?: ForwardedRef<InputImperativeHandle> },
-) => ReturnType<typeof InnerInput<TName>>
+})
