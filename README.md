@@ -19,7 +19,6 @@
    ```tsx
    import { useEffect } from 'react'
    import { useLocation } from 'react-router-dom'
-
    import 'preline/preline'
    import { type IStaticMethods } from 'preline/preline'
 
@@ -58,4 +57,5 @@
 
 1. [Add alias `@`](https://ui.shadcn.com/docs/installation/vite)
 1. [Install prettier](https://prettier.io/docs/en/install)
+1. [Install prettier-plugin-sort-imports](https://github.com/IanVS/prettier-plugin-sort-imports)
 </details>
