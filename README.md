@@ -1,30 +1,59 @@
-# React + TypeScript + Vite
+# Preline React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<details>
 
-Currently, two official plugins are available:
+<summary>This repo is built with Vite, Tailwind CSS, Preline, and react-router.</summary>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. [Initialize with Vite](https://vitejs.dev/guide/)
+1. [Install Tailwind CSS with Vite](https://tailwindcss.com/docs/guides/vite)
+1. [Install Preline UI with React using Tailwind CSS](https://preline.co/docs/frameworks-react.html)
 
-## Expanding the ESLint configuration
+   You can skip step 3 - Add a reinitialization helper for now
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. [Install tailwindcss-forms](https://github.com/tailwindlabs/tailwindcss-forms)
+1. [Install React Router](https://reactrouter.com/en/main/start/tutorial#setup)
+1. Add preline reinitialization helper (this is very useful when dropdowns or modals can not be opened)
 
-- Configure the top-level `parserOptions` property like this:
+   New file `src/lib/hooks.tsx`, and add code
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+   ```tsx
+   import { useEffect } from "react";
+   import { useLocation } from "react-router-dom";
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+   import "preline/preline";
+   import { type IStaticMethods } from "preline/preline";
+
+   declare global {
+     interface Window {
+       HSStaticMethods: IStaticMethods;
+     }
+   }
+
+   /**
+    * Add code that reinitializes the components every time when app is mounted or page was changed
+    * Docs: https://preline.co/docs/frameworks-react.html
+    */
+   export function usePrelineEffect() {
+     const location = useLocation();
+
+     useEffect(() => {
+       window.HSStaticMethods.autoInit();
+     }, [location.pathname]);
+   }
+   ```
+
+1. Add tailwind classname util
+
+   1. Install dependencies: `pnpm i clsx tailwind-merge`
+   1. New File `src/lib/utils.ts`, and add code
+
+      ```ts
+      import { clsx, type ClassValue } from "clsx";
+      import { twMerge } from "tailwind-merge";
+
+      export function cn(...inputs: ClassValue[]) {
+        return twMerge(clsx(inputs));
+      }
+      ```
+
+</details>
