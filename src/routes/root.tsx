@@ -10,10 +10,99 @@ import { cn } from '@/components/lib/utils'
 export function Root() {
   const { watch, register, control, setValue } = useForm({
     defaultValues: {
-      todoList: [],
+      todoList: [
+        {
+          emojiData: {
+            activeSkinTone: 'neutral',
+            emoji: '😂',
+            imageUrl:
+              'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f602.png',
+            isCustom: false,
+            names: ['joy', 'face with tears of joy'],
+            unified: '1f602',
+            unifiedWithoutSkinTone: '1f602',
+          },
+          title: '',
+          duration: 0,
+          checked: false,
+        },
+        {
+          emojiData: {
+            activeSkinTone: 'neutral',
+            emoji: '🦺',
+            imageUrl:
+              'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f9ba.png',
+            isCustom: false,
+            names: ['safety vest'],
+            unified: '1f9ba',
+            unifiedWithoutSkinTone: '1f9ba',
+          },
+          title: '',
+          duration: 0,
+          checked: false,
+        },
+        {
+          emojiData: {
+            activeSkinTone: 'neutral',
+            emoji: '🏈',
+            imageUrl:
+              'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c8.png',
+            isCustom: false,
+            names: ['football', 'american football'],
+            unified: '1f3c8',
+            unifiedWithoutSkinTone: '1f3c8',
+          },
+          title: '',
+          duration: 0,
+          checked: false,
+        },
+        {
+          emojiData: {
+            activeSkinTone: 'neutral',
+            emoji: '🫠',
+            imageUrl:
+              'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1fae0.png',
+            isCustom: false,
+            names: ['melting face'],
+            unified: '1fae0',
+            unifiedWithoutSkinTone: '1fae0',
+          },
+          title: '',
+          duration: 0,
+          checked: false,
+        },
+        {
+          emojiData: {
+            activeSkinTone: 'neutral',
+            emoji: '🙉',
+            imageUrl:
+              'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f649.png',
+            isCustom: false,
+            names: ['hear no evil', 'hear-no-evil monkey'],
+            unified: '1f649',
+            unifiedWithoutSkinTone: '1f649',
+          },
+          title: '',
+          duration: 0,
+          checked: false,
+        },
+        {
+          emojiData: {
+            activeSkinTone: 'neutral',
+            emoji: '🫃',
+            imageUrl:
+              'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1fac3.png',
+            isCustom: false,
+            names: ['pregnant man'],
+            unified: '1fac3',
+            unifiedWithoutSkinTone: '1fac3',
+          },
+          title: '',
+          duration: 0,
+          checked: false,
+        },
+      ],
     },
-    // defaultValues: {
-    //   hello: true,
   })
   const { fields, append, prepend, remove, swap, move, insert, update } =
     useFieldArray({
@@ -25,23 +114,26 @@ export function Root() {
 
   const [rolledNumber, setRolledNumber] = useState(-1)
   const rolledIndex = rolledNumber % todoList.length
-  console.log(rolledNumber, rolledIndex)
   const rollIt = () => {
     const from = todoList.length
-    const to = from * 4 - 1
-    console.log({ from, to })
+    const to = from * 3 - 1
     const rolledNumber = _.random(from, to)
-    console.log(rolledNumber)
 
     let rolling = 0
-    const roll = setInterval(() => {
-      if (rolling > rolledNumber) {
-        clearInterval(roll)
-        return
-      }
-      setRolledNumber(rolling)
-      rolling++
-    }, 300)
+    function roll() {
+      const timer = setTimeout(
+        () => {
+          setRolledNumber(rolling)
+          rolling++
+          clearTimeout(timer)
+          if (rolling <= rolledNumber) {
+            roll()
+          }
+        },
+        200 + 1500 / (rolledNumber - rolling + 1),
+      )
+    }
+    roll()
   }
 
   return (
@@ -57,6 +149,7 @@ export function Root() {
             key={field.id}
             className={cn(
               'flex items-center gap-4 rounded-lg p-6 glass',
+              'transition-colors duration-500',
               index === rolledIndex && 'bg-accent',
             )}
           >
