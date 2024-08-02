@@ -1,4 +1,4 @@
-import { Root } from './pages/root'
+import { Root } from './routes/root'
 
 function App() {
   return (

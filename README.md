@@ -28,4 +28,7 @@
 1. [Install daisyUI](https://daisyui.com/docs/install/)
 1. [Install react-daisyui](https://github.com/daisyui/react-daisyui)
 1. [Install lucid-react](https://lucide.dev/guide/packages/lucide-react)
+1. [Install react-hook-form](https://react-hook-form.com/get-started)
+1. [Install zod](https://zod.dev/?id=installation)
+1. [Install lodash](https://lodash.com/)
 </details>
