@@ -26,4 +26,5 @@
 1. [Install prettier](https://prettier.io/docs/en/install)
 1. [Install prettier-plugin-sort-imports](https://github.com/IanVS/prettier-plugin-sort-imports)
 1. [Install daisyUI](https://daisyui.com/docs/install/)
+1. [Install react-daisyui](https://github.com/daisyui/react-daisyui)
 </details>

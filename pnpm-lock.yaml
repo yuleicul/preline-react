@@ -14,6 +14,9 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
+      react-daisyui:
+        specifier: ^5.0.3
+        version: 5.0.3(daisyui@4.12.10(postcss@8.4.40))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.7)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -1216,6 +1219,14 @@ packages:
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+
+  react-daisyui@5.0.3:
+    resolution: {integrity: sha512-zTlWwqp08dlvdk7fHnYbkZETYqcd2yZhMteAN9nTSHmOzy/XgiIGqmjuw/Yi6qfMk87/IYexr/J5QceHECrXdg==}
+    peerDependencies:
+      daisyui: ^4.12.10
+      react: '>=16'
+      react-dom: '>=16'
+      tailwindcss: '>=3.2.7'
 
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
@@ -2560,6 +2571,13 @@ snapshots:
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
+
+  react-daisyui@5.0.3(daisyui@4.12.10(postcss@8.4.40))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.7):
+    dependencies:
+      daisyui: 4.12.10(postcss@8.4.40)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tailwindcss: 3.4.7
 
   react-dom@18.3.1(react@18.3.1):
     dependencies:
