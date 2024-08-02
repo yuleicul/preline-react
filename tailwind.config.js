@@ -1,13 +1,9 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/preline/preline.js',
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
   },
-  // eslint-disable-next-line no-undef
-  plugins: [require('@tailwindcss/forms'), require('preline/plugin')],
+  plugins: [require('daisyui')],
 }
