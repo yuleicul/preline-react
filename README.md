@@ -30,5 +30,9 @@
 1. [Install lucid-react](https://lucide.dev/guide/packages/lucide-react)
 1. [Install react-hook-form](https://react-hook-form.com/get-started)
 1. [Install zod](https://zod.dev/?id=installation)
+1. [Install @hookform/resolvers](https://github.com/react-hook-form/resolvers)
 1. [Install lodash](https://lodash.com/)
+1. [Install @uidotdev/usehooks](https://usehooks.com/)
+1. [Install uuid](https://github.com/uuidjs/uuid)
+
 </details>

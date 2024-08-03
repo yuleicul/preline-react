@@ -1,6 +1,10 @@
-export const todoListDefaultValue = {
-  emojiData: null,
+import { Todo, TodoList } from './types'
+
+export const todoDefaultValue: Todo = {
+  id: '',
+  icon: '',
   title: '',
-  duration: 0,
-  checked: false,
+  histories: [],
 }
+
+export const todoListDefaultValue: TodoList = []

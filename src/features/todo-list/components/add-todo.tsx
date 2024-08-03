@@ -1,47 +1,53 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useLocalStorage } from '@uidotdev/usehooks'
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
+import { Plus } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
 import { Button, Modal } from 'react-daisyui'
-import { set, useForm } from 'react-hook-form'
-import { todoListDefaultValue } from './const'
+import { useForm } from 'react-hook-form'
+import { v4 } from 'uuid'
+import { todoDefaultValue, todoListDefaultValue } from '../const'
+import { todoSchema } from '../schemas'
 
-type AddTodoListItemProps = {
-  append: (data: any) => void
-}
+export function AddTodo() {
+  const [todoList, saveTodoList] = useLocalStorage(
+    'todoList',
+    todoListDefaultValue,
+  )
 
-export function AddTodoListItem({ append }: AddTodoListItemProps) {
   const modalRef = useRef<HTMLDialogElement>(null)
   const handleShow = useCallback(() => {
     modalRef.current?.showModal()
   }, [modalRef])
 
   const { register, getValues } = useForm({
-    defaultValues: {
-      title: '',
-      duration: 0,
-      checked: false,
-    },
+    defaultValues: todoDefaultValue,
+    resolver: zodResolver(todoSchema),
   })
 
   const [emojiData, setEmojiData] = useState<EmojiClickData | null>(null)
 
-  const handleClickEmoji = (emojiData: EmojiClickData, event: MouseEvent) => {
+  const handleClickEmoji = (emojiData: EmojiClickData) => {
     setEmojiData(emojiData)
   }
 
   return (
     <>
-      <Button onClick={handleShow}>Open Modal</Button>
+      <Button onClick={handleShow} className="btn-primary btn-lg btn-circle">
+        <Plus />
+      </Button>
+
       <Modal ref={modalRef}>
-        <Modal.Header className="font-bold">Hello!</Modal.Header>
+        <Modal.Header className="font-bold">Create Todo</Modal.Header>
         <Modal.Body>
           <div className="size-20 rounded-full border-4 bg-primary flex justify-center items-center">
-            {emojiData && <span className="text-4xl">{emojiData.emoji}</span>}
+            <span className="text-4xl">{emojiData?.emoji ?? '😀'}</span>
           </div>
           <EmojiPicker onEmojiClick={handleClickEmoji} />
           <input
             {...register('title')}
             type="text"
-            placeholder="Type here"
+            placeholder="What will you do?"
             className="input input-bordered w-full max-w-xs"
           />
         </Modal.Body>
@@ -50,9 +56,14 @@ export function AddTodoListItem({ append }: AddTodoListItemProps) {
             <Button>Close</Button>
             <button
               className="btn btn-primary"
-              onClick={() => append({ emojiData, ...getValues() })}
+              onClick={() => {
+                saveTodoList([
+                  ...todoList,
+                  { ...getValues(), icon: emojiData?.emoji ?? '😀', id: v4() },
+                ])
+              }}
             >
-              Append
+              Create
             </button>
           </form>
         </Modal.Actions>
