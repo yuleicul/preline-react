@@ -23,16 +23,19 @@
       ```
 
 1. [Add alias `@`](https://ui.shadcn.com/docs/installation/vite)
-1. [Install prettier](https://prettier.io/docs/en/install)
-1. [Install prettier-plugin-sort-imports](https://github.com/IanVS/prettier-plugin-sort-imports)
-1. [Install daisyUI](https://daisyui.com/docs/install/)
-1. [Install react-daisyui](https://github.com/daisyui/react-daisyui)
-1. [Install lucid-react](https://lucide.dev/guide/packages/lucide-react)
-1. [Install react-hook-form](https://react-hook-form.com/get-started)
-1. [Install zod](https://zod.dev/?id=installation)
-1. [Install @hookform/resolvers](https://github.com/react-hook-form/resolvers)
-1. [Install lodash](https://lodash.com/)
-1. [Install @uidotdev/usehooks](https://usehooks.com/)
-1. [Install uuid](https://github.com/uuidjs/uuid)
+1. Install
+
+   - [prettier](https://prettier.io/docs/en/install)
+   - [prettier-plugin-sort-imports](https://github.com/IanVS/prettier-plugin-sort-imports)
+   - [daisyUI](https://daisyui.com/docs/install/)
+   - [react-daisyui](https://github.com/daisyui/react-daisyui)
+   - [lucid-react](https://lucide.dev/guide/packages/lucide-react)
+   - [react-hook-form](https://react-hook-form.com/get-started)
+   - [zod](https://zod.dev/?id=installation)
+   - [@hookform/resolvers](https://github.com/react-hook-form/resolvers)
+   - [lodash](https://lodash.com/)
+   - [@uidotdev/usehooks](https://usehooks.com/)
+   - [zustand](https://zustand-demo.pmnd.rs/)
+   - [react-query](https://tanstack.com/query/latest/docs/framework/react/installation)
 
 </details>

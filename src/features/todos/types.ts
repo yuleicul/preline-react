@@ -6,7 +6,7 @@ type TodoHistory = {
   note?: string
 }
 export type Todo = TodoSchema & {
-  id: string
+  id: number
   icon: string
   histories: TodoHistory[]
 }

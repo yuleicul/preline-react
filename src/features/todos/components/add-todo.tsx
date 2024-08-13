@@ -5,7 +5,6 @@ import { Plus } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
 import { Button, Modal } from 'react-daisyui'
 import { useForm } from 'react-hook-form'
-import { v4 } from 'uuid'
 import { todoDefaultValue, todoListDefaultValue } from '../const'
 import { todoSchema } from '../schemas'
 
@@ -59,7 +58,11 @@ export function AddTodo() {
               onClick={() => {
                 saveTodoList([
                   ...todoList,
-                  { ...getValues(), icon: emojiData?.emoji ?? '😀', id: v4() },
+                  {
+                    ...getValues(),
+                    icon: emojiData?.emoji ?? '😀',
+                    id: Date.now(),
+                  },
                 ])
               }}
             >
