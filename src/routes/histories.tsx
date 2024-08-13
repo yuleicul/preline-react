@@ -1,7 +1,7 @@
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useParams } from 'react-router-dom'
 import { WithBottomNav } from '@/components/layout/with-bottom-nav'
-import { todoListDefaultValue } from '@/features/todo-list/const'
+import { todoListDefaultValue } from '@/features/todos/const'
 
 export function Histories() {
   const { todoId } = useParams()
