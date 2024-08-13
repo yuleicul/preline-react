@@ -30,15 +30,15 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
   }
 
   return (
-    <div className="absolute inset-0 flex justify-center items-center bg-gradient-to-tr from-primary to-accent z-10">
-      <div className="card bg-base-100 w-96 shadow-xl">
+    <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-tr from-primary to-accent z-10">
+      <div className="card bg-base-100 w-80 shadow-xl">
         <figure className="px-10 pt-10 text-6xl">
           <p>{inProgressTodo.icon}</p>
         </figure>
         <div className="card-body items-center text-center">
           <h2 className="card-title">In Progress...</h2>
-          <>
-            <p className="text-sm">
+          <div className="flex flex-col gap-4 w-full">
+            <p className="text-xs">
               Started at:{' '}
               {new Date(inProgressHistory.startedAt).toLocaleString()}
             </p>
@@ -48,11 +48,12 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
             <Textarea
               placeholder="Notes"
               value={note}
+              className="w-full"
               onChange={(e) => setNote(e.target.value)}
             />
-          </>
-          <div className="card-actions">
-            <Button className="btn-accent" onClick={stop}>
+          </div>
+          <div className="card-actions w-full">
+            <Button className="btn-accent w-full" onClick={stop}>
               Stop
             </Button>
           </div>

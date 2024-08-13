@@ -32,41 +32,49 @@ export function AddTodo() {
 
   return (
     <>
-      <Button onClick={handleShow} className="btn-primary btn-lg btn-circle">
+      <Button
+        onClick={handleShow}
+        className="btn-primary btn-lg btn-circle shadow"
+      >
         <Plus />
       </Button>
 
       <Modal ref={modalRef}>
         <Modal.Header className="font-bold">Create Todo</Modal.Header>
-        <Modal.Body>
-          <div className="size-20 rounded-full border-4 bg-primary flex justify-center items-center">
-            <span className="text-4xl">{emojiData?.emoji ?? '😀'}</span>
-          </div>
-          <EmojiPicker onEmojiClick={handleClickEmoji} />
+        <Modal.Body className="flex flex-col items-center gap-4">
           <input
             {...register('title')}
             type="text"
             placeholder="What will you do?"
             className="input input-bordered w-full max-w-xs"
           />
+          <div className="size-20 rounded-full border-4 bg-primary flex justify-center items-center">
+            <span className="text-4xl">{emojiData?.emoji ?? '😀'}</span>
+          </div>
+          <EmojiPicker onEmojiClick={handleClickEmoji} width={300} />
         </Modal.Body>
         <Modal.Actions>
           <form method="dialog">
-            <Button>Close</Button>
-            <button
-              className="btn btn-primary"
-              onClick={async () => {
-                await createTodo({
-                  ...getValues(),
-                  id: Date.now(),
-                  icon: emojiData?.emoji ?? '😀',
-                  status: TodoStatus.Todo,
-                  histories: [],
-                })
-              }}
-            >
-              Create
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">
+              ✕
             </button>
+            <div className="flex gap-2">
+              <Button>Close</Button>
+              <button
+                className="btn btn-primary"
+                onClick={async () => {
+                  await createTodo({
+                    ...getValues(),
+                    id: Date.now(),
+                    icon: emojiData?.emoji ?? '😀',
+                    status: TodoStatus.Todo,
+                    histories: [],
+                  })
+                }}
+              >
+                Create
+              </button>
+            </div>
           </form>
         </Modal.Actions>
       </Modal>

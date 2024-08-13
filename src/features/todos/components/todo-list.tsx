@@ -74,12 +74,13 @@ export function TodoList() {
 
   return (
     <>
+      <p className="text-xl font-bold py-4 text-primary">Todo List</p>
       <div className="flex flex-col gap-4">
         {todoList.map((todo, index) => (
           <div
             key={todo.id}
             className={cn(
-              'flex items-center justify-between gap-4 rounded-lg p-6 glass transition-colors duration-500',
+              'flex items-center justify-between gap-4 rounded-lg p-4 glass transition-colors duration-500',
               index === currentIndex && 'bg-accent',
             )}
           >
@@ -120,8 +121,8 @@ export function TodoList() {
         ))}
       </div>
 
-      <div className="absolute right-10 bottom-32 flex gap-4">
-        <Button className="btn-accent btn-circle btn-lg" onClick={roll}>
+      <div className="fixed right-6 bottom-28 flex gap-4">
+        <Button className="btn-accent btn-circle btn-lg shadow" onClick={roll}>
           <DicesIcon />
         </Button>
         <AddTodo />
