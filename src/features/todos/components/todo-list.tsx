@@ -6,7 +6,7 @@ import {
   MoreHorizontal,
   Trash2,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from 'react-daisyui'
 import { cn } from '@/common/components/lib/utils'
 import { useCreateHistoryMutation } from '@/features/histories/api'
@@ -17,49 +17,60 @@ import { DoingModal } from './doing-modal'
 
 export function TodoList() {
   const { data: todoList = [] } = useGetTodosQuery()
+  console.log({ todoList })
   const inProgressTodo = todoList.find(
     (todo) => todo.status === TodoStatus.InProgress,
   )
   const { mutate: updateTodo } = useUpdateTodoMutation()
   const { mutate: createHistory } = useCreateHistoryMutation()
 
-  const [rolledNumber, setRolledNumber] = useState(-1)
-  const rolledIndex = rolledNumber % todoList.length
-  const rolledTodo = todoList[rolledIndex]
+  const [currentNumber, setCurrentNumber] = useState(NaN)
+  const currentIndex = currentNumber % todoList.length
+  const [isRolling, setIsRolling] = useState(false)
 
   const roll = () => {
+    setIsRolling(true)
+
     const from = todoList.length
     const to = from * 3 - 1
     const rolledNumber = _.random(from, to)
 
     let rolling = 0
-    function roll() {
+    function next() {
       const timer = setTimeout(
         () => {
-          setRolledNumber(rolling)
+          setCurrentNumber(rolling)
           rolling++
           clearTimeout(timer)
           if (rolling <= rolledNumber) {
-            roll()
+            next()
           } else {
             setTimeout(async () => {
-              await createHistory({
-                id: Date.now(),
-                todoId: rolledTodo.id,
-                startedAt: new Date().toISOString(),
-              })
-              await updateTodo({
-                ...rolledTodo,
-                status: TodoStatus.InProgress,
-              })
+              setIsRolling(false)
             }, 1000)
           }
         },
         200 + 1500 / (rolledNumber - rolling + 1),
       )
     }
-    roll()
+    next()
   }
+
+  useEffect(() => {
+    const currentTodo = todoList[currentIndex]
+    if (!isRolling && currentTodo) {
+      setCurrentNumber(NaN)
+      createHistory({
+        id: Date.now(),
+        todoId: currentTodo.id,
+        startedAt: new Date().toISOString(),
+      })
+      updateTodo({
+        ...currentTodo,
+        status: TodoStatus.InProgress,
+      })
+    }
+  }, [createHistory, currentIndex, isRolling, todoList, updateTodo])
 
   return (
     <>
@@ -69,7 +80,7 @@ export function TodoList() {
             key={todo.id}
             className={cn(
               'flex items-center justify-between gap-4 rounded-lg p-6 glass transition-colors duration-500',
-              index === rolledIndex && 'bg-accent',
+              index === currentIndex && 'bg-accent',
             )}
           >
             <div className="flex justify-between items-center gap-4">

@@ -55,8 +55,8 @@ export function AddTodo() {
             <Button>Close</Button>
             <button
               className="btn btn-primary"
-              onClick={() => {
-                createTodo({
+              onClick={async () => {
+                await createTodo({
                   ...getValues(),
                   id: Date.now(),
                   icon: emojiData?.emoji ?? '😀',

@@ -1,31 +1,25 @@
 import { WithBottomNav } from '@/common/layout/with-bottom-nav'
-import { useLocalStorage } from '@uidotdev/usehooks'
-import { useParams } from 'react-router-dom'
-import { todoListDefaultValue } from '@/features/todos/const'
+import { useGetHistoriesQuery } from '../api'
 
 export function Histories() {
-  const { todoId } = useParams()
-  const [todoList] = useLocalStorage('todoList', todoListDefaultValue)
-
-  const todo = todoList.find((todo) => todo.id === todoId)
+  const { data } = useGetHistoriesQuery()
   return (
     <WithBottomNav>
-      <h1>
-        {todo?.icon} {todo?.title}
-      </h1>
-
       <ul className="timeline timeline-vertical">
-        {todo?.histories.map((history) => (
+        {data?.map((history) => (
           <li key={history.startedAt}>
-            <div className="timeline-start">
-              {history.startedAt} - {history.endedAt}
+            <div className="timeline-start text-right">
+              {new Date(history.startedAt).toLocaleString()} -{' '}
+              {history.endedAt
+                ? new Date(history.endedAt).toLocaleString()
+                : 'Now'}
             </div>
             <div className="timeline-middle">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="h-5 w-5"
+                className="h-5 w-5 text-primary"
               >
                 <path
                   fillRule="evenodd"
@@ -34,7 +28,7 @@ export function Histories() {
                 />
               </svg>
             </div>
-            <div className="timeline-end timeline-box">{history.note}</div>
+            <div className="timeline-end timeline-box">{history.body}</div>
             <hr />
           </li>
         ))}

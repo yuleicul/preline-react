@@ -6,7 +6,7 @@ function useGetHistoriesQuery() {
   return useQuery({
     queryKey: [QueryKey.Histories],
     queryFn: () => {
-      return localStorage.getItem('histories') || ([] as History[])
+      return JSON.parse(localStorage.getItem('histories') || '[]') as History[]
     },
   })
 }
@@ -37,7 +37,10 @@ function useUpdateHistoryMutation() {
         localStorage.getItem('histories') || '[]',
       ) as History[]
       const target = histories.find((history) => history.id === data.id)
-      localStorage.setItem('histories', JSON.stringify({ ...target, ...data }))
+      const updatedHistories = histories.map((history) =>
+        history.id === data.id ? { ...target, ...data } : history,
+      )
+      localStorage.setItem('histories', JSON.stringify(updatedHistories))
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Histories] })

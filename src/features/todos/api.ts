@@ -43,7 +43,10 @@ function useUpdateTodoMutation() {
     mutationFn: async (data: Todo) => {
       const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
       const target = todos.find((todo) => todo.id === data.id)
-      localStorage.setItem('histories', JSON.stringify({ ...target, ...data }))
+      const updatedTodos = todos.map((todo) =>
+        todo.id === data.id ? { ...target, ...data } : todo,
+      )
+      localStorage.setItem('todos', JSON.stringify(updatedTodos))
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Todos] })

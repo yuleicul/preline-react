@@ -17,30 +17,39 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
     [inProgressTodo.histories],
   )
 
-  const stop = () => {
-    updateTodo({
-      ...inProgressTodo,
-      status: TodoStatus.Done,
-    })
-    updateHistory({
+  const stop = async () => {
+    await updateHistory({
       ...inProgressHistory,
       endedAt: new Date().toISOString(),
       body: note,
+    })
+    await updateTodo({
+      ...inProgressTodo,
+      status: TodoStatus.Done,
     })
   }
 
   return (
     <div className="absolute inset-0 flex justify-center items-center bg-gradient-to-tr from-primary to-accent z-10">
       <div className="card bg-base-100 w-96 shadow-xl">
-        <h1>In Progress!</h1>
         <figure className="px-10 pt-10 text-6xl">
           <p>{inProgressTodo.icon}</p>
         </figure>
         <div className="card-body items-center text-center">
-          <h2 className="card-title">{inProgressTodo.title}</h2>
+          <h2 className="card-title">In Progress...</h2>
           <>
-            <p>Started at: {inProgressHistory.startedAt}</p>
-            <Textarea value={note} onChange={(e) => setNote(e.target.value)} />
+            <p className="text-sm">
+              Started at:{' '}
+              {new Date(inProgressHistory.startedAt).toLocaleString()}
+            </p>
+
+            <h3>{inProgressTodo.title}</h3>
+
+            <Textarea
+              placeholder="Notes"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
           </>
           <div className="card-actions">
             <Button className="btn-accent" onClick={stop}>
