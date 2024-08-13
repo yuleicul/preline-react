@@ -28,18 +28,16 @@ function useCreateHistoryMutation() {
   })
 }
 
-function useEndHistoryMutation() {
+function useUpdateHistoryMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (data: History) => {
       const histories = JSON.parse(
         localStorage.getItem('histories') || '[]',
       ) as History[]
-      const targetIndex = histories.findIndex((history) => history.id === id)
-      if (targetIndex === -1) return
-      histories[targetIndex].endedAt = new Date().toISOString()
-      localStorage.setItem('histories', JSON.stringify(histories))
+      const target = histories.find((history) => history.id === data.id)
+      localStorage.setItem('histories', JSON.stringify({ ...target, ...data }))
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Histories] })
@@ -47,4 +45,8 @@ function useEndHistoryMutation() {
   })
 }
 
-export { useGetHistoriesQuery, useCreateHistoryMutation, useEndHistoryMutation }
+export {
+  useGetHistoriesQuery,
+  useCreateHistoryMutation,
+  useUpdateHistoryMutation,
+}

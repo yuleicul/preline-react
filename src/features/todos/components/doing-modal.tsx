@@ -1,83 +1,51 @@
-import { useLocalStorage } from '@uidotdev/usehooks'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Button, Textarea } from 'react-daisyui'
-import { todoListDefaultValue } from '../constants'
-import { InProgressTodo, Todo } from '../types'
+import { useUpdateHistoryMutation } from '@/features/histories/api'
+import { useUpdateTodoMutation } from '../api'
+import { Todo, TodoStatus } from '../types'
 
 type DoingModalProps = {
-  rolledTodo?: Todo
-  setIsRolledResultCardVisible: (visible: boolean) => void
+  inProgressTodo: Todo
 }
 
-export function DoingModal({
-  rolledTodo,
-  setIsRolledResultCardVisible,
-}: DoingModalProps) {
-  const [todoList, saveTodoList] = useLocalStorage(
-    'todoList',
-    todoListDefaultValue,
-  )
-  const [inProgressTodo, saveInProgressTodo] =
-    useLocalStorage<InProgressTodo | null>(
-      'inProgressTodo',
-      rolledTodo ? { ...rolledTodo, startedAt: '' } : null,
-    )
+export function DoingModal({ inProgressTodo }: DoingModalProps) {
+  const { mutate: updateHistory } = useUpdateHistoryMutation()
+  const { mutate: updateTodo } = useUpdateTodoMutation()
   const [note, setNote] = useState('')
+  const inProgressHistory = useMemo(
+    () => inProgressTodo.histories.slice(-1)[0],
+    [inProgressTodo.histories],
+  )
 
   const stop = () => {
-    const id = inProgressTodo?.id
-    const todoIndex = todoList.findIndex((todo) => todo.id === id)
-    const todo = todoList[todoIndex]
-    todo.histories.push({
-      startedAt: inProgressTodo?.startedAt,
-      endedAt: new Date().toLocaleTimeString(),
-      note,
+    updateTodo({
+      ...inProgressTodo,
+      status: TodoStatus.Done,
     })
-    saveTodoList(todoList)
-    saveInProgressTodo(null)
-    setIsRolledResultCardVisible(false)
-  }
-
-  if (!inProgressTodo) {
-    setIsRolledResultCardVisible(false)
-    return null
+    updateHistory({
+      ...inProgressHistory,
+      endedAt: new Date().toISOString(),
+      body: note,
+    })
   }
 
   return (
     <div className="absolute inset-0 flex justify-center items-center bg-gradient-to-tr from-primary to-accent z-10">
       <div className="card bg-base-100 w-96 shadow-xl">
+        <h1>In Progress!</h1>
         <figure className="px-10 pt-10 text-6xl">
           <p>{inProgressTodo.icon}</p>
         </figure>
         <div className="card-body items-center text-center">
           <h2 className="card-title">{inProgressTodo.title}</h2>
-          {inProgressTodo?.startedAt && (
-            <>
-              <p>Started at: {inProgressTodo.startedAt}</p>
-              <Textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-            </>
-          )}
+          <>
+            <p>Started at: {inProgressHistory.startedAt}</p>
+            <Textarea value={note} onChange={(e) => setNote(e.target.value)} />
+          </>
           <div className="card-actions">
-            {inProgressTodo.startedAt ? (
-              <Button className="btn-accent" onClick={stop}>
-                Stop
-              </Button>
-            ) : (
-              <Button
-                className="btn-primary"
-                onClick={() => {
-                  saveInProgressTodo({
-                    ...inProgressTodo,
-                    startedAt: new Date().toLocaleTimeString(),
-                  })
-                }}
-              >
-                Start Now!
-              </Button>
-            )}
+            <Button className="btn-accent" onClick={stop}>
+              Stop
+            </Button>
           </div>
         </div>
       </div>

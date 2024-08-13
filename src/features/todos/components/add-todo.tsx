@@ -1,18 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useLocalStorage } from '@uidotdev/usehooks'
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
 import { Plus } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
 import { Button, Modal } from 'react-daisyui'
 import { useForm } from 'react-hook-form'
-import { todoDefaultValue, todoListDefaultValue } from '../constants'
+import { useCreateTodoMutation } from '../api'
 import { todoSchema } from '../schema'
+import { TodoStatus } from '../types'
 
 export function AddTodo() {
-  const [todoList, saveTodoList] = useLocalStorage(
-    'todoList',
-    todoListDefaultValue,
-  )
+  const { mutate: createTodo } = useCreateTodoMutation()
 
   const modalRef = useRef<HTMLDialogElement>(null)
   const handleShow = useCallback(() => {
@@ -20,7 +17,10 @@ export function AddTodo() {
   }, [modalRef])
 
   const { register, getValues } = useForm({
-    defaultValues: todoDefaultValue,
+    defaultValues: {
+      icon: '',
+      title: '',
+    },
     resolver: zodResolver(todoSchema),
   })
 
@@ -56,14 +56,13 @@ export function AddTodo() {
             <button
               className="btn btn-primary"
               onClick={() => {
-                saveTodoList([
-                  ...todoList,
-                  {
-                    ...getValues(),
-                    icon: emojiData?.emoji ?? '😀',
-                    id: Date.now(),
-                  },
-                ])
+                createTodo({
+                  ...getValues(),
+                  id: Date.now(),
+                  icon: emojiData?.emoji ?? '😀',
+                  status: TodoStatus.Todo,
+                  histories: [],
+                })
               }}
             >
               Create

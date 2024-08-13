@@ -1,5 +1,3 @@
-import { cn } from '@/common/components/lib/utils'
-import { useLocalStorage } from '@uidotdev/usehooks'
 import _ from 'lodash'
 import {
   CheckCircle,
@@ -10,24 +8,24 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from 'react-daisyui'
-import { useNavigate } from 'react-router-dom'
-import { todoDefaultValue, todoListDefaultValue } from '../constants'
-import { Todo } from '../types'
+import { cn } from '@/common/components/lib/utils'
+import { useCreateHistoryMutation } from '@/features/histories/api'
+import { useGetTodosQuery, useUpdateTodoMutation } from '../api'
+import { TodoStatus } from '../types'
 import { AddTodo } from './add-todo'
 import { DoingModal } from './doing-modal'
 
 export function TodoList() {
-  const navigate = useNavigate()
-
-  const [todoList] = useLocalStorage('todoList', todoListDefaultValue)
-  const [inProgressTodo] = useLocalStorage<Todo | null>('inProgressTodo', null)
+  const { data: todoList = [] } = useGetTodosQuery()
+  const inProgressTodo = todoList.find(
+    (todo) => todo.status === TodoStatus.InProgress,
+  )
+  const { mutate: updateTodo } = useUpdateTodoMutation()
+  const { mutate: createHistory } = useCreateHistoryMutation()
 
   const [rolledNumber, setRolledNumber] = useState(-1)
   const rolledIndex = rolledNumber % todoList.length
-  const rolledTodo = todoList[rolledIndex] ?? todoDefaultValue
-
-  const [isRolledResultCardVisible, setIsRolledResultCardVisible] =
-    useState(!!inProgressTodo)
+  const rolledTodo = todoList[rolledIndex]
 
   const roll = () => {
     const from = todoList.length
@@ -44,8 +42,16 @@ export function TodoList() {
           if (rolling <= rolledNumber) {
             roll()
           } else {
-            setTimeout(() => {
-              setIsRolledResultCardVisible(true)
+            setTimeout(async () => {
+              await createHistory({
+                id: Date.now(),
+                todoId: rolledTodo.id,
+                startedAt: new Date().toISOString(),
+              })
+              await updateTodo({
+                ...rolledTodo,
+                status: TodoStatus.InProgress,
+              })
             }, 1000)
           }
         },
@@ -61,7 +67,6 @@ export function TodoList() {
         {todoList.map((todo, index) => (
           <div
             key={todo.id}
-            onClick={() => navigate(`histories/${todo.id}`)}
             className={cn(
               'flex items-center justify-between gap-4 rounded-lg p-6 glass transition-colors duration-500',
               index === rolledIndex && 'bg-accent',
@@ -70,14 +75,9 @@ export function TodoList() {
             <div className="flex justify-between items-center gap-4">
               <div className="text-4xl">{todo.icon}</div>
 
-              <div>
-                <label
-                  className={cn('text-lg cursor-pointer')}
-                  htmlFor={todo.id}
-                >
-                  {todo.title}
-                </label>
-              </div>
+              <label className={cn('text-lg cursor-pointer')}>
+                {todo.title} {todo.status === TodoStatus.InProgress && '🔥'}
+              </label>
             </div>
 
             <div className="dropdown dropdown-left dropdown-end">
@@ -116,12 +116,7 @@ export function TodoList() {
         <AddTodo />
       </div>
 
-      {isRolledResultCardVisible && (
-        <DoingModal
-          rolledTodo={rolledTodo}
-          setIsRolledResultCardVisible={setIsRolledResultCardVisible}
-        />
-      )}
+      {inProgressTodo && <DoingModal inProgressTodo={inProgressTodo} />}
     </>
   )
 }
