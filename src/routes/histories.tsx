@@ -1,6 +1,6 @@
+import { WithBottomNav } from '@/common/layout/with-bottom-nav'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useParams } from 'react-router-dom'
-import { WithBottomNav } from '@/components/layout/with-bottom-nav'
 import { todoListDefaultValue } from '@/features/todos/const'
 
 export function Histories() {

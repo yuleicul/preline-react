@@ -5,8 +5,8 @@ import { Plus } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
 import { Button, Modal } from 'react-daisyui'
 import { useForm } from 'react-hook-form'
-import { todoDefaultValue, todoListDefaultValue } from '../const'
-import { todoSchema } from '../schemas'
+import { todoDefaultValue, todoListDefaultValue } from '../constants'
+import { todoSchema } from '../schema'
 
 export function AddTodo() {
   const [todoList, saveTodoList] = useLocalStorage(

@@ -1,7 +1,7 @@
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useState } from 'react'
 import { Button, Textarea } from 'react-daisyui'
-import { todoListDefaultValue } from '../const'
+import { todoListDefaultValue } from '../constants'
 import { InProgressTodo, Todo } from '../types'
 
 type DoingModalProps = {

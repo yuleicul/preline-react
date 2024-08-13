@@ -1,3 +1,4 @@
+import { cn } from '@/common/components/lib/utils'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import _ from 'lodash'
 import {
@@ -10,8 +11,7 @@ import {
 import { useState } from 'react'
 import { Button } from 'react-daisyui'
 import { useNavigate } from 'react-router-dom'
-import { cn } from '@/components/lib/utils'
-import { todoDefaultValue, todoListDefaultValue } from '../const'
+import { todoDefaultValue, todoListDefaultValue } from '../constants'
 import { Todo } from '../types'
 import { AddTodo } from './add-todo'
 import { DoingModal } from './doing-modal'
