@@ -4,7 +4,7 @@ import { History } from '../histories/types'
 import { Tag } from '../tags/types'
 import { Todo } from './types'
 
-type GetTodoResponse = Todo & {
+export type TodoWithHistories = Todo & {
   histories: History[]
 }
 function useGetTodosQuery() {
@@ -13,7 +13,7 @@ function useGetTodosQuery() {
     queryFn: () => {
       const todos = JSON.parse(
         localStorage.getItem('todos') || '[]',
-      ) as GetTodoResponse[]
+      ) as TodoWithHistories[]
       const histories = JSON.parse(
         localStorage.getItem('histories') || '[]',
       ) as History[]

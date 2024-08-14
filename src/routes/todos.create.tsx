@@ -86,7 +86,7 @@ export function TodosCreate() {
           </Link>
         </div>
         {/* todo */}
-        {/* <EmojiPicker onEmojiClick={handleClickEmoji} width={300} /> */}
+        <EmojiPicker onEmojiClick={handleClickEmoji} width={300} />
       </div>
     </div>
   )
