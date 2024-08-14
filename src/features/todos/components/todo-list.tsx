@@ -4,15 +4,16 @@ import {
   DicesIcon,
   Edit2,
   MoreHorizontal,
+  Plus,
   Trash2,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from 'react-daisyui'
+import { Link } from 'react-router-dom'
 import { cn } from '@/common/components/lib/utils'
 import { useCreateHistoryMutation } from '@/features/histories/api'
 import { useGetTodosQuery, useUpdateTodoMutation } from '../api'
 import { TodoStatus } from '../types'
-import { AddTodo } from './add-todo'
 import { DoingModal } from './doing-modal'
 
 export function TodoList() {
@@ -61,7 +62,7 @@ export function TodoList() {
     if (!isRolling && currentTodo) {
       setCurrentNumber(NaN)
       createHistory({
-        id: Date.now(),
+        id: Date.now() + '',
         todoId: currentTodo.id,
         startedAt: new Date().toISOString(),
       })
@@ -74,8 +75,15 @@ export function TodoList() {
 
   return (
     <>
-      <p className="text-xl font-bold py-4 text-primary">Todo List</p>
-      <div className="flex flex-col gap-4">
+      <header className="fixed inset-x-0 top-0 h-16 z-10 flex items-center justify-between px-6 glass">
+        <h1 className="text-2xl font-bold">RANDOM</h1>
+        <Link to={'/todos/create'}>
+          <button className="btn btn-outline btn-primary btn-sm border-2 shadow">
+            <Plus />
+          </button>
+        </Link>
+      </header>
+      <div className="flex flex-col gap-4 pt-20">
         {todoList.map((todo, index) => (
           <div
             key={todo.id}
@@ -125,7 +133,6 @@ export function TodoList() {
         <Button className="btn-accent btn-circle btn-lg shadow" onClick={roll}>
           <DicesIcon />
         </Button>
-        <AddTodo />
       </div>
 
       {inProgressTodo && <DoingModal inProgressTodo={inProgressTodo} />}

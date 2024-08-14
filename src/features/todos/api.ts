@@ -1,13 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { QueryKey } from '@/common/const'
 import { History } from '../histories/types'
+import { Tag } from '../tags/types'
 import { Todo } from './types'
 
+type GetTodoResponse = Todo & {
+  histories: History[]
+}
 function useGetTodosQuery() {
   return useQuery({
     queryKey: [QueryKey.Todos],
     queryFn: () => {
-      const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
+      const todos = JSON.parse(
+        localStorage.getItem('todos') || '[]',
+      ) as GetTodoResponse[]
       const histories = JSON.parse(
         localStorage.getItem('histories') || '[]',
       ) as History[]
@@ -21,11 +27,12 @@ function useGetTodosQuery() {
   })
 }
 
+type CreateTodoRequest = Todo & { tags: Array<Tag['id']> }
 function useCreateTodoMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (newTodo: Todo) => {
+    mutationFn: async (newTodo: CreateTodoRequest) => {
       const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
       const updatedTodos = [...todos, newTodo]
       localStorage.setItem('todos', JSON.stringify(updatedTodos))

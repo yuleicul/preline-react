@@ -1,8 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-// import { Histories } from './routes/histories'
 import { Profile } from './routes/profile'
 import { Root } from './routes/root'
+import { TagsCreate } from './routes/tags.create'
+import { TodosCreate } from './routes/todos.create'
 
 const router = createBrowserRouter([
   {
@@ -13,10 +14,14 @@ const router = createBrowserRouter([
     path: '/profile',
     element: <Profile />,
   },
-  // {
-  //   path: 'histories/:todoId',
-  //   element: <Histories />,
-  // },
+  {
+    path: '/todos/create',
+    element: <TodosCreate />,
+  },
+  {
+    path: '/tags/create',
+    element: <TagsCreate />,
+  },
 ])
 
 const queryClient = new QueryClient()

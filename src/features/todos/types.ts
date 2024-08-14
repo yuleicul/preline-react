@@ -1,5 +1,3 @@
-import { History } from '../histories/types'
-
 export enum TodoStatus {
   Todo,
   InProgress,
@@ -7,11 +5,10 @@ export enum TodoStatus {
 }
 
 export type Todo = {
-  id: number
+  id: string
   title: string
   status: TodoStatus
   icon: string
-  histories: History[]
 }
 
 export type InProgressTodo = Todo & {

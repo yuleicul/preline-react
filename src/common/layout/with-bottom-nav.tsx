@@ -12,18 +12,18 @@ export function WithBottomNav({ children }: PropsWithChildren) {
   }
 
   return (
-    <div className="container mx-auto p-6 pb-28">
+    <div className="container mx-auto px-6 pb-28">
       {children}
 
       <div className="btm-nav h-24 pb-8">
-        <button className={cn(isActive('') && 'text-primary')}>
-          <RabbitIcon />
-        </button>
         <button
           className={cn(isActive('/') && 'text-primary')}
           onClick={() => navigate('/')}
         >
           <ListTodo />
+        </button>
+        <button className={cn(isActive('') && 'text-primary')}>
+          <RabbitIcon />
         </button>
         <button
           className={cn(isActive('/profile') && 'text-primary')}

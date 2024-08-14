@@ -1,7 +1,7 @@
 import { Todo } from '../todos/types'
 
 export type History = {
-  id: number
+  id: string
   todoId: Todo['id']
   startedAt: string
   body?: string
