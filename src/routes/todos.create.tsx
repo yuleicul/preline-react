@@ -30,6 +30,9 @@ export function TodosCreate() {
 
   const handleClickEmoji = (emojiData: EmojiClickData) => {
     setEmojiData(emojiData)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    document.getElementById('my_modal_2').close()
   }
 
   return (
@@ -44,13 +47,19 @@ export function TodosCreate() {
             icon: emojiData?.emoji ?? '😀',
             status: TodoStatus.Todo,
           })
+          navigate('/')
         }}
       />
 
       <div className="flex flex-col items-center gap-4">
-        <div className="size-20 rounded-full border-4 bg-primary flex justify-center items-center">
+        <button
+          className="size-20 rounded-full border-4 bg-primary flex justify-center items-center"
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          onClick={() => document.getElementById('my_modal_2').showModal()}
+        >
           <span className="text-4xl">{emojiData?.emoji ?? '😀'}</span>
-        </div>
+        </button>
         <input
           {...register('title')}
           type="text"
@@ -85,8 +94,20 @@ export function TodosCreate() {
             + New tag
           </Link>
         </div>
-        {/* todo */}
-        <EmojiPicker onEmojiClick={handleClickEmoji} width={300} />
+        <dialog id="my_modal_2" className="modal">
+          <div className="modal-box w-full bg-transparent shadow-none flex justify-center">
+            <EmojiPicker
+              onEmojiClick={handleClickEmoji}
+              previewConfig={{ showPreview: false }}
+              autoFocusSearch={false}
+              height={500}
+              width={320}
+            />
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
       </div>
     </div>
   )

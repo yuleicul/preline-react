@@ -88,16 +88,18 @@ export function TodoList() {
           <div
             key={todo.id}
             className={cn(
-              'flex items-center justify-between gap-4 rounded-lg p-4 glass transition-colors duration-500',
+              'flex items-center justify-between gap-4 rounded-2xl p-4 transition-colors duration-500 border-2',
               index === currentIndex && 'bg-accent',
             )}
           >
             <div className="flex justify-between items-center gap-4">
               <div className="text-4xl">{todo.icon}</div>
 
-              <label className={cn('text-lg cursor-pointer')}>
-                {todo.title} {todo.status === TodoStatus.InProgress && '🔥'}
-              </label>
+              <div>
+                <label className={cn('text-lg cursor-pointer')}>
+                  {todo.title} {todo.status === TodoStatus.InProgress && '🔥'}
+                </label>
+              </div>
             </div>
 
             <div className="dropdown dropdown-left dropdown-end">
