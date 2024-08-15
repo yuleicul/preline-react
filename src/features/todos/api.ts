@@ -4,17 +4,32 @@ import { History } from '../histories/types'
 import { Tag } from '../tags/types'
 import { Todo, TodoWithGraph } from './types'
 
-function useGetTodosQuery() {
+type GetTodosParams = {
+  tags?: Array<Tag['id']>
+}
+
+function useGetTodosQuery(params?: GetTodosParams) {
   return useQuery({
-    queryKey: [QueryKey.Todos],
+    queryKey: [QueryKey.Todos, params],
     queryFn: () => {
       const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
+      const filteredTodos = todos.filter((todo) => {
+        if (params?.tags && params.tags.length > 0) {
+          const hasTags = todo.tags.length > 0
+          return hasTags
+            ? params.tags.some((tagId) => todo.tags.includes(tagId))
+            : true
+        } else {
+          return true
+        }
+      })
+
       const histories = JSON.parse(
         localStorage.getItem('histories') || '[]',
       ) as History[]
       const tags = JSON.parse(localStorage.getItem('tags') || '[]') as Tag[]
 
-      const result: TodoWithGraph[] = todos.map((todo) => {
+      const result: TodoWithGraph[] = filteredTodos.map((todo) => {
         return {
           id: todo.id,
           title: todo.title,

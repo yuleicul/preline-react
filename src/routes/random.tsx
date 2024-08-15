@@ -1,16 +1,25 @@
 import _ from 'lodash'
 import { useMemo } from 'react'
+import { useForm } from 'react-hook-form'
+import { cn } from '@/common/components/lib/utils'
 import { WithBottomNav } from '@/common/layout/with-bottom-nav'
 import { useCreateHistoryMutation } from '@/features/histories/api'
+import { useGetTagsQuery } from '@/features/tags/api'
 import { useGetTodosQuery, useUpdateTodoMutation } from '@/features/todos/api'
 import { DoingModal } from '@/features/todos/components/doing-modal'
 import { TodoStatus } from '@/features/todos/types'
 
 export function Random() {
-  const { data: todoList = [] } = useGetTodosQuery()
+  const { register, watch } = useForm({
+    defaultValues: { tags: [] as string[] },
+  })
+  const selectedTags = watch('tags')
+
+  const { data: todoList = [] } = useGetTodosQuery({ tags: selectedTags })
   const inProgressTodo = todoList.find(
     (todo) => todo.status === TodoStatus.InProgress,
   )
+  const { data: tags = [] } = useGetTagsQuery()
   const shuffled = useMemo(() => _.shuffle(todoList), [todoList])
   const { mutate: updateTodo } = useUpdateTodoMutation()
   const { mutate: createHistory } = useCreateHistoryMutation()
@@ -22,7 +31,31 @@ export function Random() {
           <h1 className="text-2xl font-bold">RANDOM</h1>
         </header>
 
-        <div className="pt-20 grid grid-cols-2 gap-2">
+        <div className="h-16" />
+
+        <div className="w-full flex flex-wrap items-center gap-2 align-middle mb-2">
+          {tags?.map((tag) => (
+            <label
+              key={tag.id}
+              htmlFor={tag.id}
+              className={cn(
+                'badge cursor-pointer',
+                selectedTags.includes(tag.id) ? 'badge-primary' : 'badge-ghost',
+              )}
+            >
+              <input
+                type="checkbox"
+                {...register('tags')}
+                value={tag.id}
+                id={tag.id}
+                className="hidden"
+              />
+              <span>#{tag.name}</span>
+            </label>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
           {shuffled.map((todo) => (
             <label className="swap swap-flip justify-stretch" key={todo.id}>
               {/* this hidden checkbox controls the state */}

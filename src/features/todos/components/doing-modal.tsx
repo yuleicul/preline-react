@@ -59,12 +59,9 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
           <div className="card-body items-center text-center">
             <h2 className="card-title">{inProgressTodo.title}</h2>
 
-            <div>
+            <div className="flex flex-wrap gap-1">
               {inProgressTodo.tags.map((tag) => (
-                <span
-                  className="badge badge-primary badge-outline"
-                  key={tag.id}
-                >
+                <span className="badge badge-sm badge-outline" key={tag.id}>
                   {tag.name}
                 </span>
               ))}
@@ -79,7 +76,7 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
               <Textarea
                 placeholder="Notes"
                 value={note}
-                className="w-full"
+                className="w-full bg-primary/20 text-primary-content placeholder:text-primary-content/50"
                 onChange={(e) => setNote(e.target.value)}
               />
             </div>
