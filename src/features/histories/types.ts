@@ -7,3 +7,7 @@ export type History = {
   body?: string
   endedAt?: string
 }
+
+export type HistoryWithGraph = Omit<History, 'todoId'> & {
+  todo: Todo
+}

@@ -52,7 +52,7 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
           <span style={{ '--value': counter }}></span>
         </span>
       ) : (
-        <div className="card w-full shadow-xl glass text-primary-content">
+        <div className="card w-80 shadow-xl glass text-primary-content">
           <figure className="px-10 pt-10 text-6xl">
             <p>{inProgressTodo.icon}</p>
           </figure>

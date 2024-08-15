@@ -1,12 +1,29 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { QueryKey } from '@/common/const'
-import { History } from './types'
+import { Todo } from '../todos/types'
+import { History, HistoryWithGraph } from './types'
 
 function useGetHistoriesQuery() {
   return useQuery({
     queryKey: [QueryKey.Histories],
     queryFn: () => {
-      return JSON.parse(localStorage.getItem('histories') || '[]') as History[]
+      const histories = JSON.parse(
+        localStorage.getItem('histories') || '[]',
+      ) as History[]
+      const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
+
+      const result: HistoryWithGraph[] = histories.map((history) => {
+        const todo = todos.find((todo) => todo.id === history.todoId)!
+        return {
+          id: history.id,
+          todoId: history.todoId,
+          startedAt: history.startedAt,
+          body: history.body,
+          endedAt: history.endedAt,
+          todo,
+        }
+      })
+      return result
     },
   })
 }
