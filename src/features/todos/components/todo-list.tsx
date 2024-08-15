@@ -1,5 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import _ from 'lodash'
-import { DicesIcon, Plus } from 'lucide-react'
+import {
+  CheckCircle,
+  DicesIcon,
+  Edit2,
+  MoreHorizontal,
+  Plus,
+  Trash2,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from 'react-daisyui'
 import { Link } from 'react-router-dom'
@@ -69,7 +77,7 @@ export function TodoList() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 h-16 z-10 flex items-center justify-between px-6 glass">
-        <h1 className="text-2xl font-bold">RANDOM</h1>
+        <h1 className="text-2xl font-bold">TODO</h1>
         <Link to={'/todos/create'}>
           <button className="btn btn-outline btn-primary btn-sm border-2 shadow">
             <Plus />
@@ -81,12 +89,12 @@ export function TodoList() {
           <div
             key={todo.id}
             className={cn(
-              'flex items-center justify-between gap-4 rounded-3xl p-3 bg-primary/20',
+              'rounded-3xl p-3 bg-primary/20',
               'transition-colors duration-500',
               index === currentIndex && 'bg-accent',
             )}
           >
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex items-center gap-4">
               <div className="text-4xl bg-base-100 py-3 px-4 rounded-3xl">
                 {todo.icon}
               </div>
@@ -95,7 +103,7 @@ export function TodoList() {
                 <label className={cn('text-lg cursor-pointer')}>
                   {todo.title} {todo.status === TodoStatus.InProgress && '🔥'}
                 </label>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1 mt-1">
                   {todo.tags.map((tag) => (
                     <span key={tag.id} className="badge badge-accent badge-sm">
                       #{tag.name}
@@ -134,11 +142,11 @@ export function TodoList() {
         ))}
       </div>
 
-      <div className="fixed right-6 bottom-28 flex gap-4">
+      {/* <div className="fixed right-6 bottom-28 flex gap-4">
         <Button className="btn-accent btn-circle btn-lg shadow" onClick={roll}>
           <DicesIcon />
         </Button>
-      </div>
+      </div> */}
 
       {inProgressTodo && <DoingModal inProgressTodo={inProgressTodo} />}
     </>

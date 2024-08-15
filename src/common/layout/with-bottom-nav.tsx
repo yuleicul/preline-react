@@ -15,19 +15,28 @@ export function WithBottomNav({ children }: PropsWithChildren) {
 
   return (
     <div
-      className="container mx-auto px-6"
+      className="container mx-auto px-4"
       style={{ paddingBottom: BOTTOM_NAV_HEIGHT }}
     >
       {children}
 
-      <div className="btm-nav pb-6 glass" style={{ height: BOTTOM_NAV_HEIGHT }}>
+      <div
+        className="btm-nav pb-6 pt-1 glass"
+        style={{ height: BOTTOM_NAV_HEIGHT }}
+      >
         <button
           className={cn(isActive('/') && 'text-primary')}
           onClick={() => navigate('/')}
         >
           <ListTodo />
         </button>
-        <button className={cn(isActive('') && 'text-primary')}>
+        <button
+          className={cn(
+            isActive('/random') && 'text-primary',
+            'bg-accent text-accent-content rounded-xl shadow',
+          )}
+          onClick={() => navigate('/random')}
+        >
           <RabbitIcon />
         </button>
         <button
