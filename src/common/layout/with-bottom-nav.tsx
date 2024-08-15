@@ -1,4 +1,4 @@
-import { BotIcon, ListTodo, RabbitIcon } from 'lucide-react'
+import { BotIcon, ListTodo, PointerIcon } from 'lucide-react'
 import { PropsWithChildren } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { cn } from '../components/lib/utils'
@@ -37,7 +37,7 @@ export function WithBottomNav({ children }: PropsWithChildren) {
           )}
           onClick={() => navigate('/random')}
         >
-          <RabbitIcon />
+          <PointerIcon />
         </button>
         <button
           className={cn(isActive('/profile') && 'text-primary')}

@@ -24,7 +24,7 @@ export function Random() {
 
         <div className="pt-20 grid grid-cols-2 gap-2">
           {shuffled.map((todo) => (
-            <label className="swap swap-flip justify-stretch">
+            <label className="swap swap-flip justify-stretch" key={todo.id}>
               {/* this hidden checkbox controls the state */}
               <input
                 type="checkbox"

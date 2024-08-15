@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Button, Textarea } from 'react-daisyui'
 import { useUpdateHistoryMutation } from '@/features/histories/api'
 import { useUpdateTodoMutation } from '../api'
@@ -17,6 +17,8 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
     [inProgressTodo.histories],
   )
 
+  const [counter, setCounter] = useState(3)
+
   const stop = async () => {
     await updateHistory({
       id: inProgressHistory.id,
@@ -29,36 +31,67 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
     })
   }
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCounter((c) => c - 1)
+    }, 1000)
+
+    if (counter === 0) {
+      clearInterval(timer)
+    }
+
+    return () => clearInterval(timer)
+  }, [counter])
+
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-tr from-primary to-accent z-10">
-      <div className="card bg-base-100 w-80 shadow-xl">
-        <figure className="px-10 pt-10 text-6xl">
-          <p>{inProgressTodo.icon}</p>
-        </figure>
-        <div className="card-body items-center text-center">
-          <h2 className="card-title">In Progress...</h2>
-          <div className="flex flex-col gap-4 w-full">
-            <p className="text-xs">
-              Started at:{' '}
-              {new Date(inProgressHistory.startedAt).toLocaleString()}
-            </p>
+      {counter !== 0 ? (
+        <span className="countdown font-mono text-6xl">
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-expect-error */}
+          <span style={{ '--value': counter }}></span>
+        </span>
+      ) : (
+        <div className="card w-full shadow-xl glass text-primary-content">
+          <figure className="px-10 pt-10 text-6xl">
+            <p>{inProgressTodo.icon}</p>
+          </figure>
+          <div className="card-body items-center text-center">
+            <h2 className="card-title">{inProgressTodo.title}</h2>
 
-            <h3>{inProgressTodo.title}</h3>
+            <div>
+              {inProgressTodo.tags.map((tag) => (
+                <span
+                  className="badge badge-primary badge-outline"
+                  key={tag.id}
+                >
+                  {tag.name}
+                </span>
+              ))}
+            </div>
 
-            <Textarea
-              placeholder="Notes"
-              value={note}
-              className="w-full"
-              onChange={(e) => setNote(e.target.value)}
-            />
-          </div>
-          <div className="card-actions w-full">
-            <Button className="btn-accent w-full" onClick={stop}>
-              Stop
-            </Button>
+            <div className="flex flex-col gap-4 w-full">
+              <p className="text-xs">
+                Started at:{' '}
+                {new Date(inProgressHistory.startedAt).toLocaleString()}
+              </p>
+
+              <Textarea
+                placeholder="Notes"
+                value={note}
+                className="w-full"
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
+
+            <div className="card-actions w-full">
+              <Button className="btn-accent w-full" onClick={stop}>
+                Stop
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
