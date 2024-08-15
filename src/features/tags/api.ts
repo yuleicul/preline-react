@@ -30,7 +30,7 @@ function useUpdateTagMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (data: Tag) => {
+    mutationFn: async (data: Partial<Tag>) => {
       const tags = JSON.parse(localStorage.getItem('tags') || '[]') as Tag[]
       const target = tags.find((tag) => tag.id === data.id)
       const updatedTags = tags.map((tag) =>

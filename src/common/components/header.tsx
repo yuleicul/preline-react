@@ -2,8 +2,8 @@ import { Check, X } from 'lucide-react'
 
 type Props = {
   title: string
-  onClickX: () => void
   onClickV: () => void
+  onClickX?: () => void
 }
 
 export function Header({ title, onClickX, onClickV }: Props) {

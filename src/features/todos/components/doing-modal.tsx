@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react'
 import { Button, Textarea } from 'react-daisyui'
 import { useUpdateHistoryMutation } from '@/features/histories/api'
-import { TodoWithHistories, useUpdateTodoMutation } from '../api'
-import { TodoStatus } from '../types'
+import { useUpdateTodoMutation } from '../api'
+import { TodoStatus, TodoWithGraph } from '../types'
 
 type DoingModalProps = {
-  inProgressTodo: TodoWithHistories
+  inProgressTodo: TodoWithGraph
 }
 
 export function DoingModal({ inProgressTodo }: DoingModalProps) {
@@ -24,7 +24,7 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
       body: note,
     })
     await updateTodo({
-      ...inProgressTodo,
+      id: inProgressTodo.id,
       status: TodoStatus.Done,
     })
   }

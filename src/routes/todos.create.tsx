@@ -2,10 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Header } from '@/common/components/header'
 import { cn } from '@/common/components/lib/utils'
 import { useGetTagsQuery } from '@/features/tags/api'
+import { CreateTag } from '@/features/tags/components/create-tag'
 import { useCreateTodoMutation } from '@/features/todos/api'
 import { todoSchema } from '@/features/todos/schema'
 import { TodoStatus } from '@/features/todos/types'
@@ -64,11 +65,18 @@ export function TodosCreate() {
           {...register('title')}
           type="text"
           placeholder="What will you do?"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full"
         />
-        <div className="w-full flex flex-wrap gap-2">
+        <div className="w-full flex flex-wrap items-center gap-2 align-middle">
           {tags?.map((tag) => (
-            <>
+            <label
+              key={tag.id}
+              htmlFor={tag.id}
+              className={cn(
+                'badge cursor-pointer',
+                selectedTags.includes(tag.id) ? 'badge-accent' : 'badge-ghost',
+              )}
+            >
               <input
                 type="checkbox"
                 {...register('tags')}
@@ -76,23 +84,11 @@ export function TodosCreate() {
                 id={tag.id}
                 className="hidden"
               />
-              <label
-                htmlFor={tag.id}
-                key={tag.id}
-                className={cn(
-                  'badge',
-                  selectedTags.includes(tag.id)
-                    ? 'badge-accent'
-                    : 'badge-outline',
-                )}
-              >
-                #{tag.name}
-              </label>
-            </>
+              <span>#{tag.name}</span>
+            </label>
           ))}
-          <Link to={'/tags/create'} className="badge badge-outline">
-            + New tag
-          </Link>
+
+          <CreateTag />
         </div>
         <dialog id="my_modal_2" className="modal">
           <div className="modal-box w-full bg-transparent shadow-none flex justify-center">

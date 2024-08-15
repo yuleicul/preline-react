@@ -1,12 +1,5 @@
 import _ from 'lodash'
-import {
-  CheckCircle,
-  DicesIcon,
-  Edit2,
-  MoreHorizontal,
-  Plus,
-  Trash2,
-} from 'lucide-react'
+import { DicesIcon, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from 'react-daisyui'
 import { Link } from 'react-router-dom'
@@ -67,7 +60,7 @@ export function TodoList() {
         startedAt: new Date().toISOString(),
       })
       updateTodo({
-        ...currentTodo,
+        id: currentTodo.id,
         status: TodoStatus.InProgress,
       })
     }
@@ -83,26 +76,36 @@ export function TodoList() {
           </button>
         </Link>
       </header>
-      <div className="flex flex-col gap-4 pt-20">
+      <div className="flex flex-col gap-3 pt-20">
         {todoList.map((todo, index) => (
           <div
             key={todo.id}
             className={cn(
-              'flex items-center justify-between gap-4 rounded-2xl p-4 transition-colors duration-500 border-2',
+              'flex items-center justify-between gap-4 rounded-3xl p-3 bg-primary/20',
+              'transition-colors duration-500',
               index === currentIndex && 'bg-accent',
             )}
           >
             <div className="flex justify-between items-center gap-4">
-              <div className="text-4xl">{todo.icon}</div>
+              <div className="text-4xl bg-base-100 py-3 px-4 rounded-3xl">
+                {todo.icon}
+              </div>
 
               <div>
                 <label className={cn('text-lg cursor-pointer')}>
                   {todo.title} {todo.status === TodoStatus.InProgress && '🔥'}
                 </label>
+                <div className="flex flex-wrap gap-1">
+                  {todo.tags.map((tag) => (
+                    <span key={tag.id} className="badge badge-accent badge-sm">
+                      #{tag.name}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
-            <div className="dropdown dropdown-left dropdown-end">
+            {/* <div className="dropdown dropdown-left dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 <MoreHorizontal />
               </div>
@@ -126,7 +129,7 @@ export function TodoList() {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         ))}
       </div>

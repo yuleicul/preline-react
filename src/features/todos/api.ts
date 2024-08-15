@@ -2,37 +2,39 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { QueryKey } from '@/common/const'
 import { History } from '../histories/types'
 import { Tag } from '../tags/types'
-import { Todo } from './types'
+import { Todo, TodoWithGraph } from './types'
 
-export type TodoWithHistories = Todo & {
-  histories: History[]
-}
 function useGetTodosQuery() {
   return useQuery({
     queryKey: [QueryKey.Todos],
     queryFn: () => {
-      const todos = JSON.parse(
-        localStorage.getItem('todos') || '[]',
-      ) as TodoWithHistories[]
+      const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
       const histories = JSON.parse(
         localStorage.getItem('histories') || '[]',
       ) as History[]
-      todos.forEach((todo) => {
-        todo.histories = histories.filter(
-          (history) => history.todoId === todo.id,
-        )
+      const tags = JSON.parse(localStorage.getItem('tags') || '[]') as Tag[]
+
+      const result: TodoWithGraph[] = todos.map((todo) => {
+        return {
+          id: todo.id,
+          title: todo.title,
+          status: todo.status,
+          icon: todo.icon,
+          histories: histories.filter((history) => history.todoId === todo.id),
+          tags: tags.filter((tag) => todo.tags.includes(tag.id)),
+        }
       })
-      return todos
+
+      return result
     },
   })
 }
 
-type CreateTodoRequest = Todo & { tags: Array<Tag['id']> }
 function useCreateTodoMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (newTodo: CreateTodoRequest) => {
+    mutationFn: async (newTodo: Todo) => {
       const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
       const updatedTodos = [...todos, newTodo]
       localStorage.setItem('todos', JSON.stringify(updatedTodos))
@@ -47,7 +49,7 @@ function useUpdateTodoMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (data: Todo) => {
+    mutationFn: async (data: Partial<Todo>) => {
       const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
       const target = todos.find((todo) => todo.id === data.id)
       const updatedTodos = todos.map((todo) =>
