@@ -11,7 +11,7 @@ export function WithTopBack({ children, title }: PropsWithChildren<Props>) {
   return (
     <div className="container mx-auto px-4">
       <header
-        className="fixed inset-x-0 top-0 z-10 flex items-center justify-center px-6 glass"
+        className="fixed inset-x-0 top-0 z-10 flex items-center justify-center px-6 bg-base-100 shadow-sm"
         style={{ height: TOP_NAV_HEIGHT }}
       >
         <button

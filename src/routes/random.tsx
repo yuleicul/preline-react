@@ -18,7 +18,7 @@ export function Random() {
   return (
     <>
       <WithBottomNav>
-        <header className="fixed inset-x-0 top-0 h-16 z-10 flex items-center justify-center px-6 glass">
+        <header className="fixed inset-x-0 top-0 h-16 z-10 flex items-center justify-center px-6 bg-base-100">
           <h1 className="text-2xl font-bold">RANDOM</h1>
         </header>
 

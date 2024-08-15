@@ -13,6 +13,7 @@ export type Todo = {
   status: TodoStatus
   icon: string
   tags: Array<Tag['id']>
+  description?: string
 }
 
 export type TodoWithGraph = Omit<Todo, 'tags'> & {

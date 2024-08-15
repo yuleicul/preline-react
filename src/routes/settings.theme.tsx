@@ -53,6 +53,7 @@ export function SettingsTheme() {
 
         {Themes.map((theme) => (
           <input
+            key={theme}
             type="radio"
             name="theme-buttons"
             className="btn theme-controller join-item"

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { QueryKey } from '@/common/const'
+import { QueryKey } from '@/common/constants'
 import { Tag } from './types'
 
 function useGetTagsQuery() {

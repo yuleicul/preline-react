@@ -20,10 +20,7 @@ export function WithBottomNav({ children }: PropsWithChildren) {
     >
       {children}
 
-      <div
-        className="btm-nav pb-6 pt-1 glass"
-        style={{ height: BOTTOM_NAV_HEIGHT }}
-      >
+      <div className="btm-nav pb-6 pt-1" style={{ height: BOTTOM_NAV_HEIGHT }}>
         <button
           className={cn(isActive('/') && 'text-primary')}
           onClick={() => navigate('/')}

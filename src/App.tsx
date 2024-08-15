@@ -50,6 +50,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <input
+        readOnly
         type="radio"
         name="theme-button"
         className="theme-controller hidden"

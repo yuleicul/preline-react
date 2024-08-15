@@ -78,7 +78,7 @@ export function TodoList() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 h-16 z-10 flex items-center justify-between px-6 glass">
+      <header className="fixed inset-x-0 top-0 h-16 z-10 flex items-center justify-between px-6 bg-base-100">
         <h1 className="text-2xl font-bold">TODO</h1>
         <Link to={'/todos/create'}>
           <button className="btn btn-outline btn-primary btn-sm border-2 shadow">
@@ -103,11 +103,17 @@ export function TodoList() {
 
               <div>
                 <label className={cn('text-lg cursor-pointer')}>
-                  {todo.title} {todo.status === TodoStatus.InProgress && '🔥'}
+                  {todo.title}{' '}
+                  {todo.status === TodoStatus.InProgress && (
+                    <span className="badge badge-info">In progress</span>
+                  )}
                 </label>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {todo.tags.map((tag) => (
-                    <span key={tag.id} className="badge badge-accent badge-sm">
+                    <span
+                      key={tag.id}
+                      className="badge badge-primary badge-outline badge-sm"
+                    >
                       #{tag.name}
                     </span>
                   ))}
