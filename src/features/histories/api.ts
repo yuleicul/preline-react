@@ -32,7 +32,7 @@ function useUpdateHistoryMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (data: History) => {
+    mutationFn: async (data: Partial<History>) => {
       const histories = JSON.parse(
         localStorage.getItem('histories') || '[]',
       ) as History[]

@@ -19,7 +19,7 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
 
   const stop = async () => {
     await updateHistory({
-      ...inProgressHistory,
+      id: inProgressHistory.id,
       endedAt: new Date().toISOString(),
       body: note,
     })

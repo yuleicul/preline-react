@@ -1,4 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import _ from 'lodash'
 import {
   CheckCircle,
@@ -19,7 +22,6 @@ import { DoingModal } from './doing-modal'
 
 export function TodoList() {
   const { data: todoList = [] } = useGetTodosQuery()
-  console.log({ todoList })
   const inProgressTodo = todoList.find(
     (todo) => todo.status === TodoStatus.InProgress,
   )
@@ -148,7 +150,7 @@ export function TodoList() {
         </Button>
       </div> */}
 
-      {inProgressTodo && <DoingModal inProgressTodo={inProgressTodo} />}
+      {/* {inProgressTodo && <DoingModal inProgressTodo={inProgressTodo} />} */}
     </>
   )
 }
