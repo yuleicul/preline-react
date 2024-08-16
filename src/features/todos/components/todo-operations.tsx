@@ -31,7 +31,7 @@ export function TodoOperations({ todo }: TodoOperationsProps) {
           <button
             onClick={() => updateTodo({ id: todo.id, status: TodoStatus.Done })}
           >
-            <CheckCircle className="text-success" />
+            <CheckCircle />
           </button>
         )}
       </li>
@@ -60,7 +60,7 @@ export function TodoOperations({ todo }: TodoOperationsProps) {
               updateTodo({ id: todo.id, status: TodoStatus.Todo })
             }}
           >
-            <StopCircle className="text-error" />
+            <StopCircle />
           </button>
         )}
       </li>

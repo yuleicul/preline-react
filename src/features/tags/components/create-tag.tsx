@@ -9,6 +9,7 @@ import { useCreateTagMutation } from '../api'
 export function CreateTagButton() {
   return (
     <button
+      type="button"
       className="badge badge-outline"
       onClick={() => openModal(ModalId.CreateTag)}
     >

@@ -7,7 +7,7 @@ export function Histories() {
     <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
       {data?.map((history) => (
         <li key={history.id}>
-          <div className="timeline-middle text-3xl">{history.todo.icon}</div>
+          <div className="timeline-middle text-xl">{history.todo.icon}</div>
           <div className="timeline-start mb-10 md:text-end">
             <time className="font-mono capitalize text-xs">
               {DateTime.fromISO(history.startedAt).toRelativeCalendar()}:{' '}

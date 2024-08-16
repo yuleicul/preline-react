@@ -1,5 +1,6 @@
 import { SettingsIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { Heatmap } from '@/common/components/heatmap'
 import { WithBottomNav } from '@/common/layout/with-bottom-nav'
 import { Histories } from '@/features/histories/components/histories'
 
@@ -17,6 +18,7 @@ export function Profile() {
         </header>
 
         <div className="pt-16">
+          <Heatmap />
           <Histories />
         </div>
       </>
