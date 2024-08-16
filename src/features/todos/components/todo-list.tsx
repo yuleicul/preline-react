@@ -86,26 +86,26 @@ export function TodoList() {
           </button>
         </Link>
       </header>
-      <div className="flex flex-col gap-3 pt-20">
+      <div className="flex flex-col gap-2 pt-20">
         {todoList.map((todo, index) => (
           <div
             key={todo.id}
             className={cn(
-              'rounded-3xl p-3 bg-primary/20',
+              'rounded-[--rounded-box] p-2 bg-primary/20 shadow-sm',
               'transition-colors duration-500',
               index === currentIndex && 'bg-accent',
             )}
           >
             <div className="flex items-center gap-4">
-              <div className="text-4xl bg-base-100 py-3 px-4 rounded-3xl">
+              <div className="text-4xl bg-base-100 py-3 px-4 rounded-[--rounded-box]">
                 {todo.icon}
               </div>
 
               <div>
-                <label className={cn('text-lg cursor-pointer')}>
+                <label className={cn('cursor-pointer')}>
                   {todo.title}{' '}
                   {todo.status === TodoStatus.InProgress && (
-                    <span className="badge badge-info">In progress</span>
+                    <span className="badge badge-warning">In progress</span>
                   )}
                 </label>
                 <div className="flex flex-wrap gap-1 mt-1">

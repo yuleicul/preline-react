@@ -44,7 +44,7 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
   }, [counter])
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-tr from-primary to-accent z-10">
+    <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-tr from-base-100 to-primary z-10">
       {counter !== 0 ? (
         <span className="countdown font-mono text-6xl">
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -81,8 +81,8 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
               />
             </div>
 
-            <div className="card-actions w-full">
-              <Button className="btn-accent w-full" onClick={stop}>
+            <div className="card-actions">
+              <Button className="bg-primary btn-circle" onClick={stop}>
                 Stop
               </Button>
             </div>

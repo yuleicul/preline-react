@@ -78,20 +78,13 @@ export function Random() {
                 }}
               />
 
-              <div className="swap-on bg-accent text-accent-content h-40 flex flex-col gap-1 py-4 px-2 justify-center items-center rounded-2xl">
+              <div className="swap-on bg-primary text-primary-content h-40 flex flex-col gap-1 pt-10 px-2 items-center rounded-[--rounded-box] shadow-sm overflow-hidden">
                 <p className="text-4xl">{todo.icon}</p>
                 <h2 className="card-title">{todo.title}</h2>
-                <div className="flex flex-wrap gap-1">
-                  {todo.tags.map((tag) => (
-                    <div key={tag.id} className="badge badge-outline">
-                      {tag.name}
-                    </div>
-                  ))}
-                </div>
               </div>
 
-              <div className="swap-off bg-primary/20 flex justify-center items-center rounded-2xl">
-                <h2 className="text-4xl text-primary-content/20">?</h2>
+              <div className="swap-off bg-primary/20 flex justify-center items-center rounded-[--rounded-box] shadow-sm">
+                <h2 className="text-4xl text-primary-content/50">?</h2>
               </div>
             </label>
           ))}

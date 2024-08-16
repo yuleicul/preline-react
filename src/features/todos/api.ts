@@ -15,10 +15,7 @@ function useGetTodosQuery(params?: GetTodosParams) {
       const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
       const filteredTodos = todos.filter((todo) => {
         if (params?.tags && params.tags.length > 0) {
-          const hasTags = todo.tags.length > 0
-          return hasTags
-            ? params.tags.some((tagId) => todo.tags.includes(tagId))
-            : true
+          return params.tags.some((tagId) => todo.tags.includes(tagId))
         } else {
           return true
         }
