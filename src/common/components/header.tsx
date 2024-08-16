@@ -18,7 +18,7 @@ export function Header({ title, onClickX, onClickV }: Props) {
       </button>
       <h1 className="text-xl font-semibold">{title}</h1>
       <button
-        className="btn btn-outline btn-sm btn-primary shadow"
+        className="btn btn-outline btn-sm btn-success shadow"
         onClick={onClickV}
       >
         <Check />

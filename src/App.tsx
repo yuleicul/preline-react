@@ -8,7 +8,7 @@ import { Root } from './routes/root'
 import { Settings } from './routes/settings'
 import { SettingsTheme } from './routes/settings.theme'
 import { TodosCreate } from './routes/todos.create'
-import { Todos$Id } from './routes/todos$id'
+import { TodosIdEdit } from './routes/todos$id.edit'
 
 const router = createBrowserRouter([
   {
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
         element: <TodosCreate />,
       },
       {
-        path: ':id',
-        element: <Todos$Id />,
+        path: ':id/edit',
+        element: <TodosIdEdit />,
       },
     ],
   },

@@ -7,7 +7,7 @@ import {
 import { QueryKey } from '@/common/constants'
 import { History } from '../histories/types'
 import { Tag } from '../tags/types'
-import { Todo, TodoWithGraph } from './types'
+import { Todo, TodoStatus, TodoWithGraph } from './types'
 
 type GetTodosParams = {
   tags?: Array<Tag['id']>
@@ -19,6 +19,10 @@ function useGetTodosQuery(params?: GetTodosParams) {
     queryFn: () => {
       const todos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[]
       const filteredTodos = todos.filter((todo) => {
+        if (todo.status === TodoStatus.Done) {
+          return false
+        }
+
         if (params?.tags && params.tags.length > 0) {
           return params.tags.some((tagId) => todo.tags.includes(tagId))
         } else {

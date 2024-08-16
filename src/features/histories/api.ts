@@ -36,7 +36,7 @@ function useCreateHistoryMutation() {
       const histories = JSON.parse(
         localStorage.getItem('histories') || '[]',
       ) as History[]
-      histories.push(newHistory)
+      histories.unshift(newHistory)
       localStorage.setItem('histories', JSON.stringify(histories))
     },
     onSuccess: () => {

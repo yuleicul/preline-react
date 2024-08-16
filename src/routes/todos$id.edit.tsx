@@ -10,7 +10,7 @@ import {
 import { TodoForm } from '@/features/todos/components/todo-form'
 import { todoDefaultValue, todoSchema } from '@/features/todos/schema'
 
-export function Todos$Id() {
+export function TodosIdEdit() {
   const navigate = useNavigate()
   const { id } = useParams()
   const { data: todo } = useGetTodoByIdQuery(id)

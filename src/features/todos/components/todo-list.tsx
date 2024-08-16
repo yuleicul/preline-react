@@ -19,6 +19,7 @@ import { useCreateHistoryMutation } from '@/features/histories/api'
 import { useGetTodosQuery, useUpdateTodoMutation } from '../api'
 import { TodoStatus } from '../types'
 import { DoingModal } from './doing-modal'
+import { TodoOperations } from './todo-operations'
 
 export function TodoList() {
   const { data: todoList = [] } = useGetTodosQuery()
@@ -88,16 +89,18 @@ export function TodoList() {
       </header>
       <div className="flex flex-col gap-2 pt-20">
         {todoList.map((todo, index) => (
-          <Link
+          <div
             key={todo.id}
-            to={`/todos/${todo.id}`}
             className={cn(
-              'rounded-[--rounded-box] p-2 bg-primary/20 shadow-sm',
+              'rounded-[--rounded-box] p-2 bg-primary/20 shadow-sm flex justify-between items-center',
               'transition-colors duration-500',
               index === currentIndex && 'bg-accent',
             )}
           >
-            <div className="flex items-center gap-4">
+            <Link
+              to={`/todos/${todo.id}/edit`}
+              className="flex items-center gap-4 w-full"
+            >
               <div className="text-4xl bg-base-100 py-3 px-4 rounded-[--rounded-box]">
                 {todo.icon}
               </div>
@@ -120,34 +123,15 @@ export function TodoList() {
                   ))}
                 </div>
               </div>
-            </div>
+            </Link>
 
-            {/* <div className="dropdown dropdown-left dropdown-end">
-              <div tabIndex={0} role="button" className="btn m-1">
-                <MoreHorizontal />
+            <div className="dropdown dropdown-left dropdown-end">
+              <div tabIndex={0} role="button" className="btn btn-ghost m-1">
+                <MoreHorizontal className="size-5" />
               </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu flex-row bg-base-100 rounded-box z-[1] w-48 p-2 shadow"
-              >
-                <li>
-                  <a>
-                    <CheckCircle />
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <Edit2 />
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <Trash2 />
-                  </a>
-                </li>
-              </ul>
-            </div> */}
-          </Link>
+              <TodoOperations todo={todo} />
+            </div>
+          </div>
         ))}
       </div>
 

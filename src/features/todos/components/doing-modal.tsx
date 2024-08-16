@@ -13,7 +13,7 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
   const { mutate: updateTodo } = useUpdateTodoMutation()
   const [note, setNote] = useState('')
   const inProgressHistory = useMemo(
-    () => inProgressTodo.histories.slice(-1)[0],
+    () => inProgressTodo.histories[0],
     [inProgressTodo.histories],
   )
 
@@ -27,7 +27,7 @@ export function DoingModal({ inProgressTodo }: DoingModalProps) {
     })
     await updateTodo({
       id: inProgressTodo.id,
-      status: TodoStatus.Done,
+      status: TodoStatus.Todo,
     })
   }
 

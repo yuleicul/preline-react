@@ -4,7 +4,7 @@ import { useGetHistoriesQuery } from '../api'
 export function Histories() {
   const { data } = useGetHistoriesQuery()
   return (
-    <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical flex-col-reverse">
+    <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
       {data?.map((history) => (
         <li key={history.id}>
           <div className="timeline-middle text-3xl">{history.todo.icon}</div>
