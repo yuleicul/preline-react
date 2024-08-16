@@ -88,8 +88,9 @@ export function TodoList() {
       </header>
       <div className="flex flex-col gap-2 pt-20">
         {todoList.map((todo, index) => (
-          <div
+          <Link
             key={todo.id}
+            to={`/todos/${todo.id}`}
             className={cn(
               'rounded-[--rounded-box] p-2 bg-primary/20 shadow-sm',
               'transition-colors duration-500',
@@ -146,7 +147,7 @@ export function TodoList() {
                 </li>
               </ul>
             </div> */}
-          </div>
+          </Link>
         ))}
       </div>
 
